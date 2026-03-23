@@ -11,6 +11,13 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("ask"); // "ask" or "agent"
+  const resetApp = () => {
+    setFile(null);
+    setUploaded(false);
+    setQuestion("");
+    setMessages([]);
+    setLoading(false);
+  };
 
  const uploadFile = async () => {
     if (!file) return;
@@ -55,8 +62,18 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>🤖 AI Document Intelligence Agent</h1>
-        <p>Upload any PDF and ask questions using RAG + LLMs</p>
+         <h1>🤖 AI Document Intelligence Agent</h1>
+    <p>Upload any PDF and ask questions using RAG + LLMs</p>
+    {uploaded && (
+      <button onClick={resetApp} style={{
+        marginTop: "10px",
+        background: "#ef4444",
+        fontSize: "12px",
+        padding: "6px 14px"
+      }}>
+        🔄 Reset & Start Fresh
+      </button>
+    )}
       </header>
 
       <div className="upload-section">
