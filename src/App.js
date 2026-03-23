@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -11,13 +11,20 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("ask"); // "ask" or "agent"
+  // Save messages to localStorage whenever they change
+useEffect(() => {
+    localStorage.setItem("messages", JSON.stringify(messages));
+    localStorage.setItem("uploaded", uploaded);
+}, [messages, uploaded]);
   const resetApp = () => {
     setFile(null);
     setUploaded(false);
     setQuestion("");
     setMessages([]);
     setLoading(false);
-  };
+    localStorage.removeItem("messages");
+    localStorage.removeItem("uploaded");
+};
 
  const uploadFile = async () => {
     if (!file) return;
