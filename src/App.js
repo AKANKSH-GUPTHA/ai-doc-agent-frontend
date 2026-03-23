@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import "./App.css";
 
-const API = "http://127.0.0.1:8000";
+const API = "https://ai-doc-agent-3dwi.onrender.com";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -12,9 +12,13 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("ask"); // "ask" or "agent"
 
-  const uploadFile = async () => {
+ const uploadFile = async () => {
     if (!file) return;
     setLoading(true);
+    setMessages([{
+      role: "system",
+      text: "⏳ Waking up the server... this may take up to 60 seconds on first load!"
+    }]);
     const formData = new FormData();
     formData.append("file", file);
     try {
@@ -25,7 +29,7 @@ function App() {
         text: `✅ "${res.data.filename}" uploaded! ${res.data.total_chunks} chunks indexed. Ask me anything!`
       }]);
     } catch (e) {
-      alert("Upload failed!");
+      alert("Upload failed! Server may still be waking up, try again in 30 seconds.");
     }
     setLoading(false);
   };
